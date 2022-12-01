@@ -25,9 +25,9 @@ def printData(userImp:str='None'):
     everyKeys = [key for key,value in currentDB[0].items()] # assume all keys are the same --> pull keys from first item of database
 #check what the user wants to check/read  : IE certain dicts or certain values of dicts
     if userImp in everyKeys:lookingKey = True
-    elif isinstance(userImp,int): lookingKey = False
+    elif isinstance(userImp,int) and ((len(currentDB))-(userImp-1) in range(1,len(currentDB))) : lookingKey = False ; userImp-=1
     else:lookingKey = None
-        
+    
     for index in range(len((currentDB[0]))):
         currentKey = everyKeys[index]
         everyItemOfKey = [i[currentKey] for i in currentDB]  # gets every item in the WHOLE database with the CURRENT key
@@ -67,4 +67,4 @@ def update():
 
 
 #--init--#
-printData(1)
+printData(4)
