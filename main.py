@@ -9,10 +9,8 @@ def LJspace(string):
         lJust = string+(" "*spaceAdd)
         return lJust 
     return string
-
 def centerSpace(string):
-    centerSpaceing = 6
-    CJust = str(string).center(Gspaceing+centerSpaceing)
+    CJust = str(string).center(Gspaceing+6)
     return CJust
 
 def read(usrInput:str='None' ) -> dict: #returns data base
@@ -33,15 +31,15 @@ def printData(userImp:str='None'):
     for index in range(len((currentDB[0]))):
         currentKey = everyKeys[index]
         everyItemOfKey = [i[currentKey] for i in currentDB]  # gets every item in the WHOLE database with the CURRENT key
+
 #user wants a certain key/information highlighed
         if lookingKey and currentKey == userImp:
             print(f" {Fore.CYAN}[{str(index).center(2)}] {LJspace(everyKeys[index])} : {' | '.join([centerSpace(i) for i in map(str,everyItemOfKey)])}{Fore.RESET}") 
-        elif lookingKey:
-            print(f" [{str(index).center(2)}] {LJspace(everyKeys[index])} : {' | '.join([centerSpace(i) for i in map(str,everyItemOfKey)])} ") 
 
 #user wants a certain row highlighted
-        if lookingKey == False:
+        elif lookingKey == False:
             print(f" [{str(index).center(2)}] {LJspace(everyKeys[index])} : ",end="")#print keys / num
+
     #list data part print section
             for index,value in enumerate(everyItemOfKey):
                 if index == userImp:
@@ -69,4 +67,4 @@ def update():
 
 
 #--init--#
-printData(3)
+printData(1)
