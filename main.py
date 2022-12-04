@@ -14,19 +14,18 @@ def read(ui:str=None) -> dict: #returns data base
         with open ('database.json', 'r') as filee:
             temp = json.load(filee)
     return temp
-#print data
-def printData(userImp:str='None',dataset:str=None):
-    if dataset == 'v2':
-        currentDB = read('new')
-    else:
-        currentDB = read()
+
+def printData(userImp:str='None',dataset:str=None): #print data formated by key and values (assume all keys are the same)
+    currentDB = read('new')
 
 #check what the user wants to check/read  : IE certain dicts or certain values of dicts
-    if userImp.upper() in everyKeys:lookingKey = True 
-    elif ( len(userImp)==1 and ((len(currentDB))-((ord(userImp))-65) in range(1,len(currentDB)+1))) :
+
+    if userImp in everyKeys:lookingKey = True  # ID,NAMES,CLASS
+    elif len(userImp)==1 and userImp.isnumeric() and int(userImp) in range(len(everyKeys)) : # 1,2,3,4,5,6
+        lookingKey = True ; userImp = everyKeys[int(userImp)] 
+    elif ( len(userImp)==1 and ((len(currentDB))-((ord(userImp))-65) in range(1,len(currentDB)+1))) : # A,B,C,D,E,F
         lookingKey = False ; userImp = ord(userImp)-65
-        print(userImp)
-    else:lookingKey = None
+    else:lookingKey = None #NOTHING
 
     #x / y axis print statments
     print(f"{Fore.RED}{' '*6}X --> \n  Y ↓  {' '*20}{''.join(['['+(chr(i+65))+']'+' '*16 for i in range(len(currentDB))])}")
@@ -53,8 +52,7 @@ def printData(userImp:str='None',dataset:str=None):
             print()
 
 #user wants it just printed normally nothing highlighed
-        else:
-            print(f" {Fore.RED}[{str(index).center(2)}] | {Fore.RESET} {eF.LJspace(everyKeys[index])}: {' | '.join([eF.centerSpace(i[:15]) for i in map(str,everyItemOfKey)])} |") 
+        else: print(f" {Fore.RED}[{str(index).center(2)}] | {Fore.RESET} {eF.LJspace(everyKeys[index])}: {' | '.join([eF.centerSpace(i[:15]) for i in map(str,everyItemOfKey)])} |") 
 #UPDATE/EDIT
 def update():
     currentDB = read('new')
@@ -83,29 +81,32 @@ def create():
     currentDB.append(newIValues)
     with open ('Databases/databaseV2.json', 'w') as filee:   
         json.dump(currentDB,filee,indent=4)
+    printData('','v2')
 
 #DELETE
 def delete():
     currentDB = read('new')
-    removeValue = ord(input('Which Row do you want to remove > '))-65
+    removeValue = ord(input('Which Row do you want to remove > ').upper())-65
     currentDB.pop(removeValue)
     with open ('Databases/databaseV2.json', 'w') as filee:   
         json.dump(currentDB,filee,indent=4)
+    printData('','v2')
 
 #--init--#
-
 while True:
-    choice = int(input
+    try:
+        choice = int(input
     ("""[1] Print Data
 [2] Update/Edit
 [3] Create
 [4] Delete
     >"""))
-    if choice == 1:
-        printData(input('highlight row/column >'),"v2")
-    elif choice == 2:
-        update()
-    elif choice == 3:
-        create()
-    elif choice == 4:
-        delete()
+        if choice == 1:
+            printData(input('highlight row/column >'),"v2")
+        elif choice == 2:
+            update()
+        elif choice == 3:
+            create()
+        elif choice == 4:
+            delete()
+    except:pass
